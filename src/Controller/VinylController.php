@@ -22,30 +22,19 @@ class VinylController extends AbstractController
 
         ];
 
-        $tracks2=[
-            ['song'=>'Bunker','artist'=>'Balthazar'],
-            ['song'=>'Hero','artist'=>'Foo Fighters'],
-            ['song'=>'Age of Machine','artist'=>'Greta Van Fleet'],
-            ['song'=>'High and Dry','artist'=>'Radiohead'],
-            ['song'=>'I Know','artist'=>'Placebo'],
-
-        ];
-
         return $this->render("vinyl/homepage.html.twig",
             ['title'=>'PB & Jams',
                 'tracks'=>$tracks,
-                'tracks2'=>$tracks2,
+
                 ]);
     }
 
     #[Route('/browse/{slug}')]
     public function   browse($slug=null) :Response {
-         if($slug) {
-             $title ='Genre: '. u(str_replace('-', ' ', $slug))->title(true);
-         }else{
-              $title="All Genres ";
-         }
 
-         return new Response($title);
+        $genre= $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
+        return $this->render('vinyl/browse.html.twig',
+            ['genre'=>$genre,
+                ]);
     }
 }
