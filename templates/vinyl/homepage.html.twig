@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} My Music|{{ parent()}} {% endblock %}
+{% block body %}
+<h1>{{ title }}</h1>
+
+<div>
+  CD1
+</div>
+<br>
+<br>
+   Tracks:
+
+<ul>
+    {% for track in tracks %}
+    <li>
+        {{ track.artist }} - {{ track.song}}
+    </li>
+    {% endfor %}
+</ul>
+<br>
+<br>
+
+<div>
+    CD2
+</div>
+<br>
+<br>
+    Tracks:
+
+<ul>
+    {% for track in tracks2 %}
+    <li>
+        {{ track.artist }} - {{ track.song }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
