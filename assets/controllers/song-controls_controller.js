@@ -10,7 +10,18 @@ import axios from "axios";
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
-    connect() {
-        console.log('shte rabotish li maika ti daeba ');
-    }
+    static values={
+
+        infoUrl: String
+}
+
+  play(event){
+
+      event.preventDefault();
+
+      axios.get(this.infoUrlValue)
+          .then((response)=>{
+              console.log(response);
+          });
+  }
 }
