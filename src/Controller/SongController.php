@@ -20,6 +20,7 @@ class SongController extends AbstractController
            $logger->info('returning API response for song {song}',['song'=>$id,]);
 
            return $this->json($song);
+
     }
 
 }
