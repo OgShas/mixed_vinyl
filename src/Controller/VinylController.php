@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function Symfony\Component\String\u;
 
 class VinylController extends AbstractController
@@ -30,11 +32,20 @@ class VinylController extends AbstractController
             ]);
     }
 
+    #[Route('/killer')]
+    public function killer() :Response {
+
+        return $this->render("vinyl/killer.html.twig");
+    }
+
+
     #[Route('/browse/{slug}', name: 'app_browse')]
-    public function browse($slug = null): Response
+    public function browse(HttpClientInterface $httpClient, $slug = null): Response
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        $mixes = $this->getMixes();
+        $responese=$httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
+        $mixes=$responese->toArray();
+
 
         return $this->render('vinyl/browse.html.twig',
             ['genre' => $genre,
