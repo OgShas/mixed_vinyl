@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 
+use Knp\Bundle\TimeBundle\DateTimeFormatter;
+use Psr\Cache\CacheItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function Symfony\Component\String\u;
 
@@ -14,7 +18,6 @@ class VinylController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function homePage(): Response
     {
-
         $tracks = [
             ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
             ['song' => ' Waterfalls', 'artist' => 'TLC'],
@@ -33,18 +36,49 @@ class VinylController extends AbstractController
     }
 
     #[Route('/killer')]
-    public function killer() :Response {
+    public function killer(HttpClientInterface $httpClient) :Response {
 
-        return $this->render("vinyl/killer.html.twig");
+        //$response=$httpClient->request('GET','https://m.imdb.com/title/tt1853728/fullcredits/cast');
+       // $killer=$response->toArray();
+       // dump($killer);
+
+
+        $killer=$this->getKiller();
+      //  dd($killer);
+    //foreach ($killer as $key=> $kill){
+   // $killer[$key]['country']='';
+   // $killer[$key]['year']='';
+
+
+
+
+
+
+
+        return $this->render('vinyl/killer.html.twig',
+        ['killer'=>$killer]);
     }
 
 
     #[Route('/browse/{slug}', name: 'app_browse')]
-    public function browse(HttpClientInterface $httpClient, $slug = null): Response
+    public function browse(HttpClientInterface $httpClient,CacheInterface $cache, $slug = null): Response
     {
+      //  dump($cache);
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        $responese=$httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-        $mixes=$responese->toArray();
+
+         // $responese=$httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
+        //$mixes=$responese->toArray();
+
+        $mixes=$cache->get('mixes_data',function (CacheItemInterface  $cacheItem)use ($httpClient) {
+
+            $cacheItem->expiresAfter(5);
+            $responese=$httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
+            return  $responese->toArray();
+        });
+
+       // foreach ($mixes as $key =>$mix){
+        //    $mixes[$key]['ago']=$timeFormatter->formatDiff($mix['createdAt']);
+       // }
 
 
         return $this->render('vinyl/browse.html.twig',
@@ -53,30 +87,30 @@ class VinylController extends AbstractController
             ]);
     }
 
-    private function getMixes(): array
-    {
-        // temporary fake "mixes" data
+
+
+    private function getKiller(): array
+{
         return [
             [
-                'title' => 'PB & Jams',
-                'trackCount' => 14,
-                'genre' => 'Rock',
-                'createdAt' => new \DateTime('2021-10-02'),
+                'name'=>'Django Unchained',
+                'kills'=>12,
+                'weapon'=>'hand',
+                'country'=>'Texas',
+                'year'=>'1792-04-27',
+
+
             ],
             [
-                'title' => 'Put a Hex on your Ex',
-                'trackCount' => 8,
-                'genre' => 'Heavy Metal',
-                'createdAt' => new \DateTime('2022-04-28'),
-            ],
-            [
-                'title' => 'Spice Grills - Summer Tunes',
-                'trackCount' => 10,
-                'genre' => 'Pop',
-                'createdAt' => new \DateTime('2019-06-20'),
-            ],
+                'name'=>'Dr. King Schiltz',
+                'kills'=>22,
+                'weapon'=>'knife',
+                'country'=>'Varna',
+                'year'=>'1765-10-14',
+            ]
+
         ];
-    }
+}
 
 }
          

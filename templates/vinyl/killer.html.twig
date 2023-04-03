@@ -5,8 +5,21 @@
     <title> Killer </title>
 </head>
 <body style="background-color: #3dd5f3">
-<h1> Sicarios : </h1>
+<h1> Killers : </h1>
+<br>
 
+<ul>
+    {% for kill in killer %}
+    <li>
+        {{ kill.name }} | {{ kill.kills }}{{ ' kills' }}
+        <span>{{ ' by'}} {{ kill.weapon }} </span>
+        <br>
+        <span>{{ 'city: ' }}{{ kill.country }}</span>
+        <br>
+        <span>{{ kill.year|ago }}</span>
+    </li>
+    {% endfor %}
+</ul>
 
 
 
