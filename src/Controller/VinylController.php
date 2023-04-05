@@ -3,13 +3,10 @@
 namespace App\Controller;
 
 
-use Knp\Bundle\TimeBundle\DateTimeFormatter;
-use Psr\Cache\CacheItemInterface;
+use App\Service\MixRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function Symfony\Component\String\u;
 
@@ -25,35 +22,22 @@ class VinylController extends AbstractController
             ['song' => 'Show me how to live', 'artist' => 'Audioslave'],
             ['song' => 'Nobodies', 'artist' => 'Marilyn Manson'],
             ['song' => 'Simple man', 'artist' => 'Lynyrd Skynyrd'],
-
         ];
 
         return $this->render("vinyl/homepage.html.twig",
             ['title' => 'PB & Jams',
                 'tracks' => $tracks,
-
             ]);
     }
 
     #[Route('/killer')]
     public function killer(HttpClientInterface $httpClient) :Response {
-
-        //$response=$httpClient->request('GET','https://m.imdb.com/title/tt1853728/fullcredits/cast');
+         // TODO conncect to db
+        //$response=$httpClient->request('GET','DataBase');
        // $killer=$response->toArray();
        // dump($killer);
 
-
         $killer=$this->getKiller();
-      //  dd($killer);
-    //foreach ($killer as $key=> $kill){
-   // $killer[$key]['country']='';
-   // $killer[$key]['year']='';
-
-
-
-
-
-
 
         return $this->render('vinyl/killer.html.twig',
         ['killer'=>$killer]);
@@ -61,25 +45,11 @@ class VinylController extends AbstractController
 
 
     #[Route('/browse/{slug}', name: 'app_browse')]
-    public function browse(HttpClientInterface $httpClient,CacheInterface $cache, $slug = null): Response
+    public function browse(MixRepository $mixRepository, $slug = null): Response
     {
-      //  dump($cache);
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
 
-         // $responese=$httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-        //$mixes=$responese->toArray();
-
-        $mixes=$cache->get('mixes_data',function (CacheItemInterface  $cacheItem)use ($httpClient) {
-
-            $cacheItem->expiresAfter(5);
-            $responese=$httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-            return  $responese->toArray();
-        });
-
-       // foreach ($mixes as $key =>$mix){
-        //    $mixes[$key]['ago']=$timeFormatter->formatDiff($mix['createdAt']);
-       // }
-
+        $mixes=$mixRepository->findAll();
 
         return $this->render('vinyl/browse.html.twig',
             ['genre' => $genre,

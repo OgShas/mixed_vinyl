@@ -7,6 +7,25 @@
 <body style="background-color: #3dd5f3">
 <h1> Killers : </h1>
 <br>
+<div>
+    <form action="killer.html.twig" method="get" name="myForm">
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="name">
+        <br><br>
+        <label for="weapon">weapon: </label>
+        <input type="text" id="weapon" name="weapon">
+        <br><br>
+        <label for="country">country: </label>
+        <input type="text" id="country" name="country">
+        <br><br>
+        <label for="year">year: </label>
+        <input type="date" id="year" name="year">
+        <br><br>
+        <input type="button" onclick="formSubmit()" value="Send form data!">
+    </form>
+</div>
+
+
 
 <ul>
     {% for kill in killer %}
