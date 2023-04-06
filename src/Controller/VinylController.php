@@ -44,7 +44,6 @@ class VinylController extends AbstractController
         //$response=$httpClient->request('GET','DataBase');
        // $killer=$response->toArray();
        // dump($killer);
-
        $killer=$this->getKiller();
 
         return $this->render('vinyl/killer.html.twig',
