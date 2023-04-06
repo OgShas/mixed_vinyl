@@ -32,6 +32,7 @@ public function __construct(HttpClientInterface $githubContentClient,CacheInterf
              dd($output);
               */
 
+
              return $this->cache->get('mixes_data',function (CacheItemInterface  $cacheItem)
              {
                   $cacheItem->expiresAfter($this->isDebug ? 5 : 60);
