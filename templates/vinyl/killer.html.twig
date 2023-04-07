@@ -2,14 +2,16 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/killer.css') }}">
     <title> Killer </title>
 </head>
-<body style="background-color: #3dd5f3">
-<h1> Killers : </h1>
-<br>
+
+<h1>KILLERS</h1>
+
+
 <div>
     <form action="killer.html.twig" method="get" name="myForm">
-        <label for="name">Name: </label>
+        <label style="position: center" for="name">Name: </label>
         <input type="text" id="name" name="name">
         <br><br>
         <label for="weapon">weapon: </label>
@@ -24,8 +26,6 @@
         <input type="button" onclick="formSubmit()" value="Send form data!">
     </form>
 </div>
-
-{{ dump() }}
 
 <ul>
     {% for kill in killer %}
