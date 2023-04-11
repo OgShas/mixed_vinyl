@@ -24,7 +24,7 @@ class MixController extends AbstractController
         $entity->persist($mix);
         $entity->flush();
 
-        return new Response(sprintf('Mix %d is %d tracks of Hell',$mix->getId(),$mix->getTrackCount()));
+        return $this->render('vinyl/mix.html.twig');
     }
 
 }

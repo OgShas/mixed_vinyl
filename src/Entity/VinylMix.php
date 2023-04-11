@@ -32,6 +32,7 @@ class VinylMix
 
     #[ORM\Column]
     private int $votes = 0;
+
     public function __construct()
     {
         $this->createdAt=new \DateTimeImmutable();
@@ -104,7 +105,7 @@ class VinylMix
 
     public function getVotes(): ?int
     {
-        return $this->votes;
+            return $this->votes;
     }
 
     public function setVotes(int $votes): self

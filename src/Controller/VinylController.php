@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 
+use App\Entity\VinylMix;
 use App\Repository\VinylMixRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class VinylController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function homePage(): Response
     {
+
         $tracks = [
             ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
             ['song' => ' Waterfalls', 'artist' => 'TLC'],
@@ -38,18 +40,6 @@ class VinylController extends AbstractController
             ]);
     }
 
-    #[Route('/killer')]
-    public function killer(HttpClientInterface $httpClient) :Response {
-         // TODO conncect to db
-        //$response=$httpClient->request('GET','DataBase');
-       // $killer=$response->toArray();
-       // dump($killer);
-
-       $killer=$this->getKiller();
-
-        return $this->render('vinyl/killer.html.twig',
-        ['killer'=>$killer]);
-    }
 
 
     #[Route('/browse/{slug}', name: 'app_browse')]
@@ -65,30 +55,6 @@ class VinylController extends AbstractController
             ]);
     }
 
-
-
-    private function getKiller(): array
-{
-        return [
-            [
-                'name'=>'Django Unchained',
-                'kills'=>12,
-                'weapon'=>'hand',
-                'country'=>'Texas',
-                'year'=>'1792-04-27',
-
-
-            ],
-            [
-                'name'=>'Dr. King Schiltz',
-                'kills'=>22,
-                'weapon'=>'knife',
-                'country'=>'Varna',
-                'year'=>'1765-10-14',
-            ]
-
-        ];
-}
 
 }
          
