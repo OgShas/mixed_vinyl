@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 
-use App\Service\MixRepository;
+
+use App\Repository\VinylMixRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,12 +13,11 @@ use function Symfony\Component\String\u;
 
 class VinylController extends AbstractController
 {
-    private $mixRepository;
+
     private bool $isDebug;
 
-    public function __construct(MixRepository $mixRepository,bool $isDebug,)
+    public function __construct(bool $isDebug,)
     {
-        $this->mixRepository=$mixRepository;
         $this->isDebug=$isDebug;
     }
     #[Route('/', name: 'app_homepage')]
@@ -53,13 +53,13 @@ class VinylController extends AbstractController
 
 
     #[Route('/browse/{slug}', name: 'app_browse')]
-    public function browse( $slug = null): Response
+    public function browse(VinylMixRepository $mixRepository, $slug = null): Response
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
 
-        $mixes=$this->mixRepository->findAll();
+         $mixes=$mixRepository->findAll();
 
-        return $this->render('vinyl/browse.html.twig',
+         return $this->render('vinyl/browse.html.twig',
             ['genre' => $genre,
                 'mixes' => $mixes,
             ]);
