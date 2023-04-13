@@ -1,0 +1,20 @@
+
+
+
+<div>
+    <h2 class="mt-5">Mixes</h2>
+
+        {% for mix in mix %}
+            <div class="col col-md-4">
+                <a
+                        href="{{ path('app_mix_show',{id: mix.id}) }}"
+                        class="mixed-vinyl-container p-3 text-center">
+                    <p class="mt-2"><strong>{{mix.title}}</strong></p>
+                    <span>{{ mix.trackCount }}</span>
+                    <br>
+                    <span>{{ mix.votesString }}</span> Votes
+                </a>
+            </div>
+        {%endfor %}
+</div>
+

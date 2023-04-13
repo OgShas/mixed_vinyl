@@ -4,12 +4,12 @@ namespace App\Controller;
 
 
 
-use App\Entity\VinylMix;
+
+use App\Repository\KillerDataRepository;
 use App\Repository\VinylMixRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function Symfony\Component\String\u;
 
 class VinylController extends AbstractController
@@ -17,10 +17,12 @@ class VinylController extends AbstractController
 
     private bool $isDebug;
 
-    public function __construct(bool $isDebug,)
+
+    public function __construct(bool $isDebug)
     {
-        $this->isDebug=$isDebug;
+        $this->isDebug = $isDebug;
     }
+
     #[Route('/', name: 'app_homepage')]
     public function homePage(): Response
     {
@@ -41,15 +43,14 @@ class VinylController extends AbstractController
     }
 
 
-
     #[Route('/browse/{slug}', name: 'app_browse')]
     public function browse(VinylMixRepository $mixRepository, $slug = null): Response
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
 
-         $mixes=$mixRepository->findAll();
+        $mixes = $mixRepository->findAllOrderByVotes($slug);
 
-         return $this->render('vinyl/browse.html.twig',
+        return $this->render('vinyl/browse.html.twig',
             ['genre' => $genre,
                 'mixes' => $mixes,
             ]);
@@ -57,6 +58,4 @@ class VinylController extends AbstractController
 
 
 }
-         
-            
       

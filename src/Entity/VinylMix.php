@@ -121,6 +121,7 @@ class VinylMix
 
         return sprintf('%s %d', $prefix, abs($this->votes));
     }
+
     public function getImagesUrl(int $width) : string
     {
       return sprintf('https://picsum.photos/id/%d/%d',($this->getId()+50) %1000,
