@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\VinylMixRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use PhpParser\Node\Scalar\String_;
 
@@ -34,6 +35,10 @@ class VinylMix
 
     #[ORM\Column]
     private int $votes = 0;
+
+    #[ORM\Column(length: 255,unique: true)]
+    #[Slug(fields:['title'])]
+    private ?string $slug = null;
 
 
     public function getId(): ?int
@@ -107,7 +112,7 @@ class VinylMix
     }
     public function downVotes() : void
     {
-        $this->votes--;
+        $this->votes-=2;
     }
 
     public function getVotesString() : string
@@ -122,5 +127,17 @@ class VinylMix
       return sprintf('https://picsum.photos/id/%d/%d',($this->getId()+50) %1000,
       $width
       );
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

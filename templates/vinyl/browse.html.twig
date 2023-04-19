@@ -13,31 +13,36 @@
             <a class="btn btn-primary btn-sm" href="{{ path('app_browse',{slug:'rock'}) }}">Rock</a>
         </li>
         <li class="d-inline">
-            <a class="btn btn-primary btn-sm" href="{{path('app_browse',{slug:'heavy-metal'}) }} ">Heavy Metal</a>
+            <a class="btn btn-primary btn-sm" href="{{path('app_browse',{slug:'heavy metal'}) }} ">Heavy Metal</a>
         </li>
     </ul>
 
     <div>
         <h2 class="mt-5">Mixes</h2>
-        <div class="row">
-            {% for mix in mixes %}
-            <div class="col col-md-4">
-                <a
-                        href="{{ path('app_mix_show',{id: mix.id}) }}"
-                        class="mixed-vinyl-container p-3 text-center">
-                    <img src="{{ mix.imagesUrl(300) }}"  alt="Mix album cover">
-                    <p class="mt-2"><strong>{{mix.title}}</strong></p>
-                    <span>{{ mix.trackCount }}</span>
-                    |
-                    <span>{{ mix.genre}} </span>
-                    |
-                    <span>{{  mix.createdAt|ago}}</span>
-                    <br>
-                    {{ mix.votesString  }} votes
-                </a>
+        <turbo-frame id="mix-browse-list">
+            <div class="row">
+                {% for mix in pager %}
+                    <div class="col col-md-4">
+                        <a
+                                href="{{ path('app_mix_show',{slug: mix.slug}) }}"
+                                class="mixed-vinyl-container p-3 text-center">
+                            <img src="{{ mix.imagesUrl(300) }}"  alt="Mix album cover">
+                            <p class="mt-2"><strong>{{mix.title}}</strong></p>
+                            <span>{{ mix.trackCount }}</span>
+                            |
+                            <span>{{ mix.genre}} </span>
+                            |
+                            <span>{{  mix.createdAt|ago}}</span>
+                            <br>
+                            {{ mix.votesString  }} votes
+                        </a>
+                    </div>
+                {%endfor %}
+
+
+                {{ pagerfanta(pager) }}
             </div>
-            {%endfor %}
-        </div>
+        </turbo-frame>
     </div>
 </div>
 {% endblock %}

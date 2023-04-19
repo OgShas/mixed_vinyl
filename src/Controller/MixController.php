@@ -20,7 +20,7 @@ class MixController extends AbstractController
         $mix->setTitle('Marilyn Manson the new Pope');
         $mix->setDescription('Say10');
 
-        $genres = ['rock', 'pop'];
+        $genres = ['rock', 'pop','heavy metal'];
         $mix->setGenre($genres[array_rand($genres)]);
 
         $mix->setTrackCount(rand(10, 100));
@@ -47,7 +47,7 @@ class MixController extends AbstractController
        }*/
 
 
-      #[Route('/mix/{id}',name:"app_mix_show")]
+      #[Route('/mix/{slug}',name:"app_mix_show")]
     public function show(VinylMix $mix) : Response
     {
       return $this->render('mix/show.html.twig',['mix'=>$mix]);
@@ -64,7 +64,7 @@ class MixController extends AbstractController
 
 
     #[Route('//mix/{id}/vote',name:'app_mix_vote',methods: ['POST'])]
-    public function vote(VinylMix $mix,\Symfony\Component\HttpFoundation\Request $request) : Response
+    public function vote(VinylMix $mix,\Symfony\Component\HttpFoundation\Request $request,EntityManagerInterface $entityManager) : Response
     {
     $direction=$request->request->get('direction','up');
           if($direction==='up')
@@ -73,6 +73,13 @@ class MixController extends AbstractController
           }else{
               $mix->downVotes();
           }
-    dd($mix);
+
+          $entityManager->flush();
+
+          $this->addFlash('success','Vote counted!');
+
+          return $this->redirectToRoute('app_mix_show',[
+              'slug'=>$mix->getSlug(),
+          ]);
     }
 }
