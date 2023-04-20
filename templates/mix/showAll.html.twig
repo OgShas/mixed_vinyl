@@ -1,20 +1,29 @@
 
 
+<form action="{{ path('app_killer_createkiller') }}" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <br><br>
+    <div>
+        <label for="weapon">weapon:</label>
+        <textarea id="weapon" name="weapon" required></textarea>
+    </div>
+    <br>
+    <div>
+        <label for="kills">kills:</label>
+        <input type="number" id="kills" name="kills" required>
+    </div>
+    <br>
+    <div>
+        <label for="votes">votes:</label>
+        <input type="number" id="votes" name="votes" required>
+    </div>
+    <br><br>
+    <button type="submit">Create Killer</button>
+</form>
 
-<div>
-    <h2 class="mt-5">Mixes</h2>
 
-        {% for mix in mix %}
-            <div class="col col-md-4">
-                <a
-                        href="{{ path('app_mix_show',{id: mix.id}) }}"
-                        class="mixed-vinyl-container p-3 text-center">
-                    <p class="mt-2"><strong>{{mix.title}}</strong></p>
-                    <span>{{ mix.trackCount }}</span>
-                    <br>
-                    <span>{{ mix.votesString }}</span> Votes
-                </a>
-            </div>
-        {%endfor %}
-</div>
+
 

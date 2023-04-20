@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\VinylMix;
 use App\Repository\VinylMixRepository;
+use Doctrine\DBAL\Types\ObjectType;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -54,6 +55,7 @@ class MixController extends AbstractController
     }
 
 
+
     #[Route('/all',name: 'show_all')]
     public function showAll(VinylMixRepository $mixRepository)
     {
@@ -83,3 +85,4 @@ class MixController extends AbstractController
           ]);
     }
 }
+

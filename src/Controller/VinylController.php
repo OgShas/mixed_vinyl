@@ -7,7 +7,6 @@ namespace App\Controller;
 
 use App\Repository\KillerDataRepository;
 use App\Repository\VinylMixRepository;
-use http\Env\Request;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
