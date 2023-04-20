@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Car List :</h1>
+
+{{ form_start(form) }}
+{{ form_row(form) }}
+<button type="submit">Search</button>
+
+{{ form_end(form) }}
+
+<br><br><br>
+{%for car in car %}
+    {{car.make }}
+{% endfor %}
+
+
+</body>
+</html>
